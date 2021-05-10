@@ -69,21 +69,12 @@ namespace KohonenSoftware
             this.txtDt = new System.Windows.Forms.TextBox();
             this.txtCantidadDm = new System.Windows.Forms.TextBox();
             this.txtCantidadVecinas = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.dgvSimulacion = new System.Windows.Forms.DataGridView();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.btnSimulacion = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.btnCargarPatron = new System.Windows.Forms.Button();
-            this.btnCargarPeso = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEntradas)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPesos)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVecinas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDistanciaNeurona)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSimulacion)).BeginInit();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -330,7 +321,7 @@ namespace KohonenSoftware
             this.panel2.Controls.Add(this.txtCantidadVecinas);
             this.panel2.Location = new System.Drawing.Point(411, 51);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(289, 392);
+            this.panel2.Size = new System.Drawing.Size(289, 368);
             this.panel2.TabIndex = 26;
             // 
             // label19
@@ -344,7 +335,7 @@ namespace KohonenSoftware
             // 
             // btnEntrenarRedNuevo
             // 
-            this.btnEntrenarRedNuevo.Location = new System.Drawing.Point(117, 362);
+            this.btnEntrenarRedNuevo.Location = new System.Drawing.Point(113, 336);
             this.btnEntrenarRedNuevo.Name = "btnEntrenarRedNuevo";
             this.btnEntrenarRedNuevo.Size = new System.Drawing.Size(159, 23);
             this.btnEntrenarRedNuevo.TabIndex = 36;
@@ -400,9 +391,9 @@ namespace KohonenSoftware
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(3, 14);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(119, 13);
+            this.label12.Size = new System.Drawing.Size(102, 13);
             this.label12.TabIndex = 26;
-            this.label12.Text = "Distancia de la neurona";
+            this.label12.Text = "Distancia euclidiana";
             // 
             // txtIteracion
             // 
@@ -465,76 +456,11 @@ namespace KohonenSoftware
             this.txtCantidadVecinas.Size = new System.Drawing.Size(161, 20);
             this.txtCantidadVecinas.TabIndex = 20;
             // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(13, 14);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(58, 13);
-            this.label17.TabIndex = 33;
-            this.label17.Text = "Simulacion";
-            // 
-            // dgvSimulacion
-            // 
-            this.dgvSimulacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSimulacion.Location = new System.Drawing.Point(16, 30);
-            this.dgvSimulacion.Name = "dgvSimulacion";
-            this.dgvSimulacion.Size = new System.Drawing.Size(317, 150);
-            this.dgvSimulacion.TabIndex = 34;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.btnSimulacion);
-            this.panel3.Controls.Add(this.label17);
-            this.panel3.Controls.Add(this.textBox2);
-            this.panel3.Controls.Add(this.btnCargarPatron);
-            this.panel3.Controls.Add(this.btnCargarPeso);
-            this.panel3.Controls.Add(this.dgvSimulacion);
-            this.panel3.Location = new System.Drawing.Point(726, 51);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(344, 306);
-            this.panel3.TabIndex = 35;
-            // 
-            // btnSimulacion
-            // 
-            this.btnSimulacion.Location = new System.Drawing.Point(102, 270);
-            this.btnSimulacion.Name = "btnSimulacion";
-            this.btnSimulacion.Size = new System.Drawing.Size(147, 23);
-            this.btnSimulacion.TabIndex = 39;
-            this.btnSimulacion.Text = "Simulacion";
-            this.btnSimulacion.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(158, 226);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(175, 20);
-            this.textBox2.TabIndex = 38;
-            // 
-            // btnCargarPatron
-            // 
-            this.btnCargarPatron.Location = new System.Drawing.Point(16, 224);
-            this.btnCargarPatron.Name = "btnCargarPatron";
-            this.btnCargarPatron.Size = new System.Drawing.Size(136, 23);
-            this.btnCargarPatron.TabIndex = 37;
-            this.btnCargarPatron.Text = "Cargar Patron";
-            this.btnCargarPatron.UseVisualStyleBackColor = true;
-            // 
-            // btnCargarPeso
-            // 
-            this.btnCargarPeso.Location = new System.Drawing.Point(16, 183);
-            this.btnCargarPeso.Name = "btnCargarPeso";
-            this.btnCargarPeso.Size = new System.Drawing.Size(136, 23);
-            this.btnCargarPeso.TabIndex = 36;
-            this.btnCargarPeso.Text = "Cargar Peso";
-            this.btnCargarPeso.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1187, 663);
-            this.Controls.Add(this.panel3);
+            this.ClientSize = new System.Drawing.Size(755, 663);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnEntrenar);
             this.Controls.Add(this.label10);
@@ -564,9 +490,6 @@ namespace KohonenSoftware
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVecinas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDistanciaNeurona)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSimulacion)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -608,13 +531,6 @@ namespace KohonenSoftware
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtIteracion;
         private System.Windows.Forms.TextBox txtRataAprendizaje;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.DataGridView dgvSimulacion;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btnSimulacion;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button btnCargarPatron;
-        private System.Windows.Forms.Button btnCargarPeso;
         private System.Windows.Forms.TextBox txtDv;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label11;
