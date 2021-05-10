@@ -1,0 +1,10 @@
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\bin\Debug\KohonenSoftware.exe.config
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\bin\Debug\KohonenSoftware.exe
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\bin\Debug\KohonenSoftware.pdb
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.csprojAssemblyReference.cache
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.Form1.resources
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.Properties.Resources.resources
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.csproj.GenerateResource.cache
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.csproj.CoreCompileInputs.cache
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.exe
+C:\Users\JOELBOLIVARGM\source\repos\KohonenSoftware\KohonenSoftware\obj\Debug\KohonenSoftware.pdb
