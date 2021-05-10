@@ -389,16 +389,16 @@ namespace KohonenSoftware
             // dgvDistanciaNeurona
             // 
             this.dgvDistanciaNeurona.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDistanciaNeurona.Location = new System.Drawing.Point(1, 30);
+            this.dgvDistanciaNeurona.Location = new System.Drawing.Point(3, 30);
             this.dgvDistanciaNeurona.Name = "dgvDistanciaNeurona";
-            this.dgvDistanciaNeurona.Size = new System.Drawing.Size(156, 196);
+            this.dgvDistanciaNeurona.Size = new System.Drawing.Size(141, 183);
             this.dgvDistanciaNeurona.TabIndex = 27;
             this.dgvDistanciaNeurona.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDistanciaNeurona_CellContentClick);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(-2, 14);
+            this.label12.Location = new System.Drawing.Point(3, 14);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(119, 13);
             this.label12.TabIndex = 26;

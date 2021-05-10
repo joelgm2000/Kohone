@@ -18,18 +18,19 @@ namespace KohonenSoftware
         bool validacion = true;
 
         double ganadora = 9999999;
-        double dt = 0, dm = 0, iteracion = 1, ra, stop = 0;
+        double dt = 0, dm = 0, iteracion = 1, ra ;
 
         double[,] datosEntradasMatriz = new double[1000, 1000];
         double[,] datosPesosMatriz = new double[1000, 1000];
-        List<string> datosEntradasListString = new List<string>();
+        List<double> datosEntradasList = new List<double>();
         List<double> lis_patrones = new List<double>();
         List<double> vencedoraList = new List<double>();
         List<double> Di = new List<double>();
         List<double> diPosicionList = new List<double>();
         List<double> dmList = new List<double>();
 
-        int numeroEntrada, numeroNeurona, ganadoraPosicion, bandera;
+        int numeroEntrada, numeroNeurona, ganadoraPosicion;
+        int stop1, stop2 = 0;
         public Form1()
         {
             InitializeComponent();
@@ -62,6 +63,9 @@ namespace KohonenSoftware
 
         private void btnConfiguracionRed_Click(object sender, EventArgs e)
         {
+            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
+            stop1 = numeroNeurona;
+
             validacionNumerosNeurona();
             if (validacion)
             {
@@ -93,12 +97,15 @@ namespace KohonenSoftware
         private void btnPesosAleatorio_Click(object sender, EventArgs e)
         {
             llenarTablaPesos();
+           
             MostrarTablaPesos(dgvPesos, datosPesosMatriz);
         }
 
         private void btnEntrenar_Click(object sender, EventArgs e)
         {
+            PorPatrones();
             LlenarEntrenar();
+
         }
 
         private void dgvDistanciaNeurona_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -168,6 +175,7 @@ namespace KohonenSoftware
                     archivo = this.buscarDialog.FileName;
                     PasarDeDGVaList(archivo);
                     leerArchivo(dgvEntradas, ';', archivo);
+                   
                 }
             }
             catch (Exception ex)
@@ -182,7 +190,7 @@ namespace KohonenSoftware
             lis_patrones.Clear();
             TextReader reader = new StreamReader(File.OpenRead(fileName));
             string fila;
-
+            
             while ((fila = reader.ReadLine()) != null)
             {
                 if (bandera == 0)
@@ -198,7 +206,8 @@ namespace KohonenSoftware
                         lis_patrones.Add(Convert.ToDouble(item.ToString()));
 
                     }
-
+                 
+                  
                     /*
                     for (int i = 0; i < lis_patrones.Count; i++)
                     {
@@ -289,7 +298,7 @@ namespace KohonenSoftware
         public void llenarTablaPesos()
         {
             this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
-            this.numeroNeurona = Convert.ToInt32(txtNeuronaMapa.Text);
+            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
 
             Random r = new Random();
 
@@ -322,10 +331,39 @@ namespace KohonenSoftware
                 }
             }
         }
+        public void PorPatrones()
+        {
+            this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
+            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
+            Console.WriteLine("Fuera del if: " + " Stop1 " + stop1 + " Stop2 " + stop2);
+
+            for (int i = 0; i < numeroNeurona; i++)
+            {
+               
+                for (int j = 0; j < numeroEntrada; j++)
+                {
+                   
+                    if (stop1>stop2)
+                    {
+                        
+                        datosEntradasList.Add(lis_patrones[i]);
+                       
+                       
+                        Console.WriteLine("Stop1 "+ stop1 + " Stop2 " + stop2 + " >> " + j + " - " + i);
+                        break;
+                    }
+                    
+                }
+             
+            }
+            stop2++;
+        }
+
+
         public void LlenarEntrenar()
         {
             this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
-            this.numeroNeurona = Convert.ToInt32(txtNeuronaMapa.Text);
+            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
 
             Console.WriteLine("Entradas: " + numeroEntrada);
             Console.WriteLine("Neurona: " + numeroNeurona);
@@ -533,7 +571,7 @@ namespace KohonenSoftware
         public void NuevoPesos(double[,] antiguoPesos, double ra)
         {
             this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
-            this.numeroNeurona = Convert.ToInt32(txtNeuronaMapa.Text);
+            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
 
             double nuevoPesos = 0;
             int neuronaMomento = 0;
