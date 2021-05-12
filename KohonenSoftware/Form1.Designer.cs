@@ -29,6 +29,9 @@ namespace KohonenSoftware
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSubirDatos = new System.Windows.Forms.Button();
             this.dgvEntradas = new System.Windows.Forms.DataGridView();
@@ -69,12 +72,36 @@ namespace KohonenSoftware
             this.txtDt = new System.Windows.Forms.TextBox();
             this.txtCantidadDm = new System.Windows.Forms.TextBox();
             this.txtCantidadVecinas = new System.Windows.Forms.TextBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnCagarPesos = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.dgvPesosCarga = new System.Windows.Forms.DataGridView();
+            this.btnPatron = new System.Windows.Forms.Button();
+            this.btnSimulacion = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.dgvDistanciaSimulacion = new System.Windows.Forms.DataGridView();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtDvSimulacion = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.dgvPatronSimulacion = new System.Windows.Forms.DataGridView();
+            this.lblNeuronas = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lblPatrones = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEntradas)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPesos)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVecinas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDistanciaNeurona)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPesosCarga)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDistanciaSimulacion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPatronSimulacion)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -179,6 +206,7 @@ namespace KohonenSoftware
             this.cmbTipoCompetencia.Name = "cmbTipoCompetencia";
             this.cmbTipoCompetencia.Size = new System.Drawing.Size(100, 21);
             this.cmbTipoCompetencia.TabIndex = 11;
+            this.cmbTipoCompetencia.SelectedIndexChanged += new System.EventHandler(this.cmbTipoCompetencia_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -195,12 +223,13 @@ namespace KohonenSoftware
             this.txtVecindad.Name = "txtVecindad";
             this.txtVecindad.Size = new System.Drawing.Size(100, 20);
             this.txtVecindad.TabIndex = 13;
+            this.txtVecindad.Click += new System.EventHandler(this.txtVecindad_Click);
             this.txtVecindad.TextChanged += new System.EventHandler(this.txtVecindad_TextChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 0);
+            this.label7.Location = new System.Drawing.Point(2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(145, 13);
             this.label7.TabIndex = 14;
@@ -245,7 +274,7 @@ namespace KohonenSoftware
             // 
             // btnConfiguracionRed
             // 
-            this.btnConfiguracionRed.Location = new System.Drawing.Point(3, 69);
+            this.btnConfiguracionRed.Location = new System.Drawing.Point(7, 62);
             this.btnConfiguracionRed.Name = "btnConfiguracionRed";
             this.btnConfiguracionRed.Size = new System.Drawing.Size(156, 23);
             this.btnConfiguracionRed.TabIndex = 19;
@@ -304,6 +333,7 @@ namespace KohonenSoftware
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.label19);
             this.panel2.Controls.Add(this.btnEntrenarRedNuevo);
             this.panel2.Controls.Add(this.label11);
@@ -321,7 +351,7 @@ namespace KohonenSoftware
             this.panel2.Controls.Add(this.txtCantidadVecinas);
             this.panel2.Location = new System.Drawing.Point(411, 51);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(289, 368);
+            this.panel2.Size = new System.Drawing.Size(359, 392);
             this.panel2.TabIndex = 26;
             // 
             // label19
@@ -456,11 +486,195 @@ namespace KohonenSoftware
             this.txtCantidadVecinas.Size = new System.Drawing.Size(161, 20);
             this.txtCantidadVecinas.TabIndex = 20;
             // 
+            // chart1
+            // 
+            this.chart1.BorderlineWidth = 10;
+            chartArea3.BackColor = System.Drawing.Color.MediumBlue;
+            chartArea3.BorderWidth = 10;
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
+            this.chart1.Location = new System.Drawing.Point(411, 449);
+            this.chart1.Name = "chart1";
+            this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Light;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.LabelBackColor = System.Drawing.Color.Black;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(359, 202);
+            this.chart1.TabIndex = 27;
+            this.chart1.Text = "chart1";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.lblPatrones);
+            this.panel3.Controls.Add(this.label22);
+            this.panel3.Controls.Add(this.lblNeuronas);
+            this.panel3.Controls.Add(this.label23);
+            this.panel3.Controls.Add(this.dgvPatronSimulacion);
+            this.panel3.Controls.Add(this.txtDvSimulacion);
+            this.panel3.Controls.Add(this.label20);
+            this.panel3.Controls.Add(this.dgvDistanciaSimulacion);
+            this.panel3.Controls.Add(this.label17);
+            this.panel3.Controls.Add(this.btnSimulacion);
+            this.panel3.Controls.Add(this.btnPatron);
+            this.panel3.Controls.Add(this.dgvPesosCarga);
+            this.panel3.Location = new System.Drawing.Point(776, 51);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(364, 580);
+            this.panel3.TabIndex = 28;
+            // 
+            // btnCagarPesos
+            // 
+            this.btnCagarPesos.Location = new System.Drawing.Point(880, 18);
+            this.btnCagarPesos.Name = "btnCagarPesos";
+            this.btnCagarPesos.Size = new System.Drawing.Size(213, 23);
+            this.btnCagarPesos.TabIndex = 30;
+            this.btnCagarPesos.Text = "Cargar";
+            this.btnCagarPesos.UseVisualStyleBackColor = true;
+            this.btnCagarPesos.Click += new System.EventHandler(this.btnCagarPesos_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(794, 23);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(63, 13);
+            this.label14.TabIndex = 29;
+            this.label14.Text = "Subir Pesos";
+            // 
+            // dgvPesosCarga
+            // 
+            this.dgvPesosCarga.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPesosCarga.Location = new System.Drawing.Point(21, 1);
+            this.dgvPesosCarga.Name = "dgvPesosCarga";
+            this.dgvPesosCarga.Size = new System.Drawing.Size(324, 150);
+            this.dgvPesosCarga.TabIndex = 31;
+            // 
+            // btnPatron
+            // 
+            this.btnPatron.Location = new System.Drawing.Point(21, 184);
+            this.btnPatron.Name = "btnPatron";
+            this.btnPatron.Size = new System.Drawing.Size(324, 23);
+            this.btnPatron.TabIndex = 31;
+            this.btnPatron.Text = "Cargar patron";
+            this.btnPatron.UseVisualStyleBackColor = true;
+            this.btnPatron.Click += new System.EventHandler(this.btnPatron_Click);
+            // 
+            // btnSimulacion
+            // 
+            this.btnSimulacion.Location = new System.Drawing.Point(21, 300);
+            this.btnSimulacion.Name = "btnSimulacion";
+            this.btnSimulacion.Size = new System.Drawing.Size(324, 23);
+            this.btnSimulacion.TabIndex = 43;
+            this.btnSimulacion.Text = "Iniciar simulacion";
+            this.btnSimulacion.UseVisualStyleBackColor = true;
+            this.btnSimulacion.Click += new System.EventHandler(this.btnSimulacion_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(278, 336);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 46);
+            this.button1.TabIndex = 42;
+            this.button1.Text = "Guardar Pesos";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // dgvDistanciaSimulacion
+            // 
+            this.dgvDistanciaSimulacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDistanciaSimulacion.Location = new System.Drawing.Point(21, 355);
+            this.dgvDistanciaSimulacion.Name = "dgvDistanciaSimulacion";
+            this.dgvDistanciaSimulacion.Size = new System.Drawing.Size(141, 183);
+            this.dgvDistanciaSimulacion.TabIndex = 44;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(18, 339);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(102, 13);
+            this.label17.TabIndex = 44;
+            this.label17.Text = "Distancia euclidiana";
+            // 
+            // txtDvSimulacion
+            // 
+            this.txtDvSimulacion.Enabled = false;
+            this.txtDvSimulacion.Location = new System.Drawing.Point(190, 355);
+            this.txtDvSimulacion.Name = "txtDvSimulacion";
+            this.txtDvSimulacion.Size = new System.Drawing.Size(96, 20);
+            this.txtDvSimulacion.TabIndex = 45;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(187, 339);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(22, 13);
+            this.label20.TabIndex = 46;
+            this.label20.Text = "DV";
+            // 
+            // dgvPatronSimulacion
+            // 
+            this.dgvPatronSimulacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPatronSimulacion.Location = new System.Drawing.Point(21, 213);
+            this.dgvPatronSimulacion.Name = "dgvPatronSimulacion";
+            this.dgvPatronSimulacion.Size = new System.Drawing.Size(324, 55);
+            this.dgvPatronSimulacion.TabIndex = 43;
+            // 
+            // lblNeuronas
+            // 
+            this.lblNeuronas.AutoSize = true;
+            this.lblNeuronas.Location = new System.Drawing.Point(132, 164);
+            this.lblNeuronas.Name = "lblNeuronas";
+            this.lblNeuronas.Size = new System.Drawing.Size(13, 13);
+            this.lblNeuronas.TabIndex = 50;
+            this.lblNeuronas.Text = "_";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(18, 164);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(111, 13);
+            this.label23.TabIndex = 48;
+            this.label23.Text = "Numeros de neuronas";
+            // 
+            // lblPatrones
+            // 
+            this.lblPatrones.AutoSize = true;
+            this.lblPatrones.Location = new System.Drawing.Point(132, 274);
+            this.lblPatrones.Name = "lblPatrones";
+            this.lblPatrones.Size = new System.Drawing.Size(13, 13);
+            this.lblPatrones.TabIndex = 52;
+            this.lblPatrones.Text = "_";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(18, 274);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(108, 13);
+            this.label22.TabIndex = 51;
+            this.label22.Text = "Numeros de patrones";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 663);
+            this.ClientSize = new System.Drawing.Size(1146, 663);
+            this.Controls.Add(this.btnCagarPesos);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnEntrenar);
             this.Controls.Add(this.label10);
@@ -490,6 +704,12 @@ namespace KohonenSoftware
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVecinas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDistanciaNeurona)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPesosCarga)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDistanciaSimulacion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPatronSimulacion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -537,6 +757,25 @@ namespace KohonenSoftware
         private System.Windows.Forms.DataGridView dgvVecinas;
         private System.Windows.Forms.Button btnEntrenarRedNuevo;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnSimulacion;
+        private System.Windows.Forms.Button btnPatron;
+        private System.Windows.Forms.DataGridView dgvPesosCarga;
+        private System.Windows.Forms.Button btnCagarPesos;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox txtDvSimulacion;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.DataGridView dgvDistanciaSimulacion;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.DataGridView dgvPatronSimulacion;
+        private System.Windows.Forms.Label lblNeuronas;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lblPatrones;
+        private System.Windows.Forms.Label label22;
     }
 }
 

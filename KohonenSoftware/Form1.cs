@@ -16,10 +16,9 @@ namespace KohonenSoftware
         OpenFileDialog buscarDialog = new OpenFileDialog();
         public string archivo = "";
         bool validacion = true;
-
-        double ganadora = 9999999;
-        double dt = 0, dm = 0, iteracion = 1, ra ;
-
+        double ganadora = 9999999999999999999, SumGanadora=0;
+        double dt = 0, dm = 0, iteracion = 1, ra=1, total = 0, total2=0, numFilaPO, numColmPO;
+         
         double[,] datosEntradasMatriz = new double[1000, 1000];
         double[,] datosPesosMatriz = new double[1000, 1000];
         List<double> datosEntradasList = new List<double>();
@@ -28,13 +27,24 @@ namespace KohonenSoftware
         List<double> Di = new List<double>();
         List<double> diPosicionList = new List<double>();
         List<double> dmList = new List<double>();
-
+        List<double> dtList = new List<double>();
+        List<double> ganadoraList = new List<double>();
+        List<string> listPatronesOptimos = new List<string>();
+        List<double> pesosSimulacion = new List<double>();
+        List<double> listaPatronesSimulacion = new List<double>();
         int numeroEntrada, numeroNeurona, ganadoraPosicion;
-        int stop1, stop2 = 0;
+        int stop1, stop2 = 0, c;
+        double[,] matrizPesosOptimos;
+        string[] obtenerPatrones;
+        string[] obtenerPesosO;
+        string[] obtenerPatronesOp;
+
         public Form1()
         {
             InitializeComponent();
             txtRataAprendizaje.Text = "1";
+            txtVecindad.Text = "0";
+            txtVecindad.Enabled = false;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -81,7 +91,8 @@ namespace KohonenSoftware
 
         private void dgvEntradas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
+               
         }
 
         private void txtVecindad_TextChanged(object sender, EventArgs e)
@@ -97,8 +108,8 @@ namespace KohonenSoftware
         private void btnPesosAleatorio_Click(object sender, EventArgs e)
         {
             llenarTablaPesos();
-           
-            MostrarTablaPesos(dgvPesos, datosPesosMatriz);
+
+            MostrarTablaPesosP(dgvPesos, datosPesosMatriz);
             btnEntrenar.Enabled = true;
         }
 
@@ -137,7 +148,7 @@ namespace KohonenSoftware
                 {
                     if (fila == 0)
                     {
-                        dgvEntradas.ColumnCount = sLine.Split(caracter).Length;
+                        tabla.ColumnCount = sLine.Split(caracter).Length;
                         nombrarTitulo(tabla, sLine.Split(caracter));
                         fila += 1;
                     }
@@ -191,8 +202,7 @@ namespace KohonenSoftware
                 MessageBox.Show("Error: " + ex.ToString());
             }
         }
-
-     
+      
         public void PasarDeDGVaList(String fileName)
         {
             int bandera = 0;
@@ -217,14 +227,7 @@ namespace KohonenSoftware
 
                     }
 
-                    
-
-                   
-                    /*
-                    for (int i = 0; i < lis_patrones.Count; i++)
-                    {
-                        Console.WriteLine(lis_patrones[i]);
-                    }*/
+             
 
                 }
             }
@@ -251,22 +254,25 @@ namespace KohonenSoftware
             if (TxtVacio(txtNeuronaMapa, "Neurona Mapa") == true && TxtVacio(txtVecindad, "Vecindad") == true && TxtVacio(txtIteraciones, "Iteraciones") == true)
             {
                 int numero = Convert.ToInt32(txtNeuronaMapa.Text),
-                    numeroEntradasDobles = dgvEntradas.ColumnCount;
-                   double cv = Convert.ToDouble(txtVecindad.Text);
+                    numeroEntradasDobles = Convert.ToInt32(dgvEntradas.ColumnCount);
+                double cv = Convert.ToDouble(txtVecindad.Text);
 
-                if (!EsPrimo(numero) || numeroEntradasDobles >= numero * 2)
+                if (EsPrimo(numero) || numero < (numeroEntradasDobles * 2))
                 {
                     this.validacion = false;
-                    MessageBox.Show("El numero de Neurona debe ser primo o el numero de Neurona debe ser el doble que el de la entrada :)");
+                    MessageBox.Show("El numero de Neurona NO debe ser primo o el numero de Neurona debe ser el doble que el de la entrada :)");
 
                 }
-
-                else if (!ValidacionCv(cv))
+               else if (ValidarComboCompetencia()==true)
                 {
-                    this.validacion = false;
-                    MessageBox.Show("El numero de Neurona debe ser mayor que 0 y menor o igual que 1 :)");
+                    if (!ValidacionCv(cv))
+                    {
+                        this.validacion = false;
+                        MessageBox.Show("El numero de Neurona debe ser mayor que 0 y menor o igual que 1 :)");
 
+                    }
                 }
+     
                 else
                 {
                     this.validacion = true;
@@ -281,7 +287,7 @@ namespace KohonenSoftware
             {
                 if ((numero % i) == 0)
                 {
-                    // No es primo :(
+                    // No es primo 
                     return false;
                 }
             }
@@ -326,6 +332,7 @@ namespace KohonenSoftware
         {
             if (cmbTipoCompetencia.SelectedItem.Equals("Blanda"))
             {
+            
                 return true;
             }
             return false;
@@ -336,24 +343,42 @@ namespace KohonenSoftware
         public void llenarTablaPesos()
         {
             this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
-            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
+            c = Convert.ToInt32(txtNeuronaMapa.Text);
 
             Random r = new Random();
 
-            for (int i = 0; i < numeroNeurona; i++)
+            for (int i = 0; i < c; i++)
             {
-                //Columnas 11
+              
                 for (int j = 0; j < numeroEntrada; j++)
                 {
                     // Filas 10
-                    datosPesosMatriz[i, j] = (Math.Round(r.NextDouble(), 2));
+                    datosPesosMatriz[j, i] = (Math.Round(r.NextDouble(), 2));
 
                 }
 
             }
 
         }
-        public void MostrarTablaPesos(DataGridView tabla, double[,] matriz)
+        public void MostrarTablaPesosP(DataGridView tabla, double[,] matriz)
+        {
+            c = Convert.ToInt32(txtNeuronaMapa.Text);
+            tabla.RowCount = c;
+            tabla.ColumnCount = numeroEntrada;
+            //MessageBox.Show(numeroEntrada + " , " + numeroNeurona);
+            Console.WriteLine("Neurona MAP " +Convert.ToInt32(txtNeuronaMapa.Text));
+            for (int i = 0; i < c; i++)
+            {
+
+                for (int j = 0; j < numeroEntrada; j++)
+                {
+
+                    tabla.Rows[i].Cells[j].Value = matriz[j,i].ToString();
+
+                }
+            }
+        }
+      /*  public void MostrarTablaPesos(DataGridView tabla, double[,] matriz)
         {
             tabla.RowCount = numeroNeurona;
             tabla.ColumnCount = numeroEntrada;
@@ -369,6 +394,7 @@ namespace KohonenSoftware
                 }
             }
         }
+        */
         int sumaEntrada = 0;
         public void PorPatrones()
         {
@@ -385,7 +411,12 @@ namespace KohonenSoftware
             }
             else
             {
-                MessageBox.Show("Recorrio todos los patrones");
+                iteracion++;
+                Ra();
+                txtIteracion.Text = Convert.ToString(ra);
+                txtIteracion.Text = Convert.ToString(iteracion);
+                stop2 = 0;
+                sumaEntrada = 0;
             }
            
                
@@ -402,75 +433,78 @@ namespace KohonenSoftware
         public void LlenarEntrenar()
         {
             this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
-            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
-            Di.Clear();
+           
+            c = Convert.ToInt32(txtNeuronaMapa.Text);
+
             Console.WriteLine("Entradas: " + numeroEntrada);
-            Console.WriteLine("Neurona: " + numeroNeurona);
-            double SumDi2 = 0, SumDiTotal = 0, exponenciar=0, datosEntradas=0;
-          
-            for (int i = 0; i < numeroNeurona; i++)
+            Console.WriteLine("Neurona Mapa: " + c);
+            double SumDi2, SumDiTotal = 0, datosEntradas = 0;
+
+            Di.Clear();
+
+            for (int i = 0; i < c; i++)
             {
-                
+                SumDiTotal = 0;
                 for (int j = 0; j < numeroEntrada; j++)
                 {
                     datosEntradas = Convert.ToDouble(datosEntradasList[j]);
                     SumDi2 = datosEntradas - (datosPesosMatriz[i, j]);
+                    SumDiTotal += Math.Pow((SumDi2), 2);
 
-                    exponenciar = Math.Pow((SumDi2), 2);
-                    SumDiTotal = Math.Round(Math.Sqrt(exponenciar), 4);
-                    Di.Add(SumDiTotal);
                 }
 
-                
-               
+                total = Math.Round(Math.Sqrt(SumDiTotal), 4);
+                Console.WriteLine(total);
+                Di.Add(total);
+
             }
 
-            MostrarEntrenar(Di, dgvDistanciaNeurona);
-            Ra();
-            Ganadora();
-            txtDv.Text = Convert.ToString(ganadora);
-            if (ValidarComboCompetencia() == true)
+            MostrarEntrenarC(Di, dgvDistanciaNeurona);
+            
+            Ganadora(Di,txtDv);
+         
+            if (ValidarComboCompetencia())
             {
-              
-                DtCalculo();
-                txtDt.Text = Convert.ToString(dt);
+                Console.WriteLine("Entro a True");
+                DtCalculo(dtList);
                 Vecinas(vencedoraList);
-                MostrarColumna(vencedoraList, dgvVecinas);
                 txtCantidadVecinas.Text = dgvVecinas.ColumnCount.ToString();
-              
 
-            }
-            else if(ValidarComboCompetencia() == false)
+            }else 
             {
-                Ganadora();
                 NuevoPesos(datosPesosMatriz, ra);
             }
 
-            DtCalculo();
+
             txtIteracion.Text = Convert.ToString(iteracion);
             DmCalculo(dmList);
+            Graficar();
 
-
-            /*   for (int i = 0; i < dmList.Count; i++)
-            {
-                Console.WriteLine(">>>" + dmList[i]);
-            }*/
-
+            
         }
+        
 
-        public void Ganadora()
+        public void Ganadora(List<Double> Dis, TextBox txt)
         {
 
-            for (int i = 0; i < Di.Count; i++)
+          ganadora = Dis[0];
+            ganadoraPosicion = 0;
+            for (int i = 0; i < Dis.Count; i++)
             {
-                if (Di[i] < ganadora)
-                {
-                    ganadoraPosicion = i;
-                    ganadora = Di[i];
 
+                if (Dis[i] < ganadora)
+                {
+
+                    ganadoraPosicion = i;
+                    ganadora = Dis[i];
+                   
                 }
+
             }
-           // Console.WriteLine("GANADORA POSICION: " + ganadoraPosicion);
+            SumGanadora += ganadora;
+
+            txt.Text = Convert.ToString(ganadora);
+            Console.WriteLine("GANADORA POSICION: " + SumGanadora);
         }
 
         public void MostrarEntrenar(List<double> Dil, DataGridView dgv)
@@ -490,27 +524,48 @@ namespace KohonenSoftware
 
         }
 
-        public void DtCalculo()
+        public void MostrarEntrenarC(List<double> Dil, DataGridView dgv)
         {
+
+            dgv.RowCount = c;
+
+            //MessageBox.Show(numeroEntrada + " , " + numeroNeurona);
+
+
+            for (int j = 0; j < c; j++)
+            {
+
+                dgv.Rows[j].Cells[0].Value = Dil[j];
+
+            }
+
+        }
+        public void DtCalculo(List<double> dtLists)
+        {
+            dtLists.Clear();
             dt = 0;
-            dt = ganadora + Convert.ToDouble(txtVecindad.Text.ToString());
+            dt = Convert.ToDouble(txtDv.Text) + Convert.ToDouble(txtVecindad.Text);
+
+            dtLists.Add(dt);
+
+            txtDt.Text = Convert.ToString(dt);
         }
 
         public void Vecinas(List<double> dil)
         {
             dil.Clear();
-            diPosicionList.Clear();
+            
             for (int i = 0; i < Di.Count; i++)
             {
                 if (Di[i] < dt)
                 {
                     diPosicionList.Add(i);
                     dil.Add(Di[i]);
-                    //Console.WriteLine("Di: " + i);
+                    
                 }
-
+              
             }
-
+            MostrarColumna(dil, dgvVecinas);
         }
 
         public void MostrarColumna(List<double> Dil, DataGridView dgv)
@@ -542,6 +597,304 @@ namespace KohonenSoftware
 
         }
 
+        private void btnCagarPesos_Click(object sender, EventArgs e)
+        {
+          
+            
+
+            // abrir cuadro de dialogo
+
+
+            dgvPesosCarga.AllowUserToAddRows = false;
+            dgvPesosCarga.AutoGenerateColumns = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                dgvPesosCarga.DataSource = this.cargarArchivoPesos(openFileDialog1.FileName);
+            }
+            
+           
+            this.LlenarMatrizPesosOptimos();
+            lblNeuronas.Text = dgvPesosCarga.Rows.Count.ToString();
+        }
+        public object cargarArchivoPesos(string fileName)
+        {
+            DataTable datos = new DataTable();
+            int countRow = 0;
+            int countColumn = 0;
+            numColmPO = 0;
+            numFilaPO = 0;
+            try
+            {
+                //leer el archivo
+                FileInfo fileInfo = new FileInfo(fileName);
+                StreamReader reader = new StreamReader(fileName, Encoding.UTF8);
+                using (reader = fileInfo.OpenText())
+                {
+                    string line = string.Empty;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        numFilaPO++;
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            continue;
+                        }
+                        if (countRow == 0)
+                        {
+                            //Mostrar columnas
+                            var getColumns = line.Split(';');
+                            countColumn = getColumns.Length;
+                            numColmPO = countColumn;
+                            //MessageBox.Show(numColmPO.ToString());
+                            int i = 0;
+                            foreach (string item in getColumns)
+                            {
+                                datos.Columns.Add("W" + i);
+                                i++;
+                            }
+                            countRow++;
+
+                        }
+                        //Mostrar filas
+                        var getRow = line.Split(';');
+                        listPatronesOptimos.Add(line);
+                        if (string.IsNullOrEmpty(getRow[0].Split('\r')[0].Trim()))
+                        {
+                            continue;
+                        }
+
+                        DataRow drRow = datos.NewRow();
+                        int colsCount = 0;
+                        foreach (var item in getRow)
+                        {
+                            if (colsCount < countColumn)
+                            {
+                                drRow[colsCount] = item.Split('\r')[0].Trim();
+                            }
+                            colsCount++;
+                        }
+                        datos.Rows.Add(drRow);
+
+                    }
+                }
+                return datos;
+            }
+            catch (Exception x)
+            {
+
+                throw new ApplicationException(x.Message, x);
+            }
+
+        }
+        private void LlenarMatrizPesosOptimos()
+        {
+            matrizPesosOptimos = new double[(int)numFilaPO, (int)numColmPO];
+            obtenerPesosO = new string[(int)numColmPO];
+            for (int filas = 0; filas < numFilaPO; filas++)
+            {
+                obtenerPesosO = listPatronesOptimos[filas].Split(';');
+                for (int col = 0; col < numColmPO; col++)
+                {
+                    matrizPesosOptimos[filas, col] = double.Parse(obtenerPesosO[col]);
+                }
+            }
+
+
+
+
+            for (int filas = 0; filas < numFilaPO; filas++)
+            {
+                for (int col = 0; col < numColmPO; col++)
+                {
+                    Console.WriteLine(matrizPesosOptimos[filas, col]);
+                }
+            }
+        }
+
+        private void btnPatron_Click(object sender, EventArgs e)
+        {
+            dgvPatronSimulacion.AllowUserToAddRows = false;
+            dgvPatronSimulacion.AutoGenerateColumns = true;
+            cargarArchivoPatrones();
+            lblPatrones.Text = dgvPatronSimulacion.ColumnCount.ToString();
+        }
+        public void cargarArchivoPatrones()
+        {
+            try
+            {
+                this.buscarDialog.ShowDialog();
+
+                if (!string.IsNullOrEmpty(this.buscarDialog.FileName))
+                {
+                    archivo = this.buscarDialog.FileName;
+
+                    leerArchivo(dgvPatronSimulacion, ';', archivo);
+                    PasarDeDGVaListSimulacion(archivo, listaPatronesSimulacion);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
+        }
+
+        public void PasarDeDGVaListSimulacion(String fileName, List<double> lista)
+        {
+            
+            lista.Clear();
+            TextReader reader = new StreamReader(File.OpenRead(fileName));
+            string fila;
+
+
+            while ((fila = reader.ReadLine()) != null)
+            {
+               
+
+                    foreach (var item in fila.Split(';'))
+                    {
+
+                        lista.Add(Convert.ToDouble(item.ToString()));
+
+                    }      
+
+                
+            }
+            for (int j = 0; j < lista.Count; j++)
+            {
+                Console.WriteLine("Lista Patrones " + lista[j]);
+            }
+        }
+
+        private void txtVecindad_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTipoCompetencia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ValidarComboCompetencia() == true)
+            {
+                txtVecindad.Enabled = true;
+            }
+            else
+            {
+                txtVecindad.Enabled = false;
+            }
+        }
+
+        private void btnSimulacion_Click(object sender, EventArgs e)
+        {
+            double neurona = Convert.ToDouble(lblNeuronas.Text);
+            double patrones = Convert.ToDouble(lblPatrones.Text);
+
+            List<double> dils = new List<double>();
+
+      
+            double SumDi2, SumDiTotal = 0, datosEntradas = 0;
+
+            dils.Clear();
+   
+           
+            for (int i = 0; i < neurona; i++)
+            {
+                SumDiTotal = 0;
+                for (int j = 0; j < patrones; j++)
+                {
+                    datosEntradas = Convert.ToDouble(listaPatronesSimulacion[j]);
+                    SumDi2 = datosEntradas - (matrizPesosOptimos[i, j]);
+                    SumDiTotal += Math.Pow((SumDi2), 2);
+
+                }
+
+                total2 = Math.Round(Math.Sqrt(SumDiTotal), 4);
+                Console.WriteLine(total2);
+                dils.Add(total2);
+
+            }
+
+            dgvDistanciaSimulacion.RowCount = Convert.ToInt32(neurona);
+
+            //MessageBox.Show(numeroEntrada + " , " + numeroNeurona);
+
+
+            for (int j = 0; j < neurona; j++)
+            {
+
+                dgvDistanciaSimulacion.Rows[j].Cells[0].Value = dils[j];
+
+            }
+            
+
+            Ganadora(dils, txtDvSimulacion);
+  
+        }
+    
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GuardarPesos();
+        }
+
+        public void GuardarPesos()
+        {
+            List<string> listPesosGanadores = new List<string>();
+            this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
+
+            c = Convert.ToInt32(txtNeuronaMapa.Text);
+
+            for (int i = 0; i < c ; i++)
+            {
+                string variable = "";
+                for (int j = 0; j < numeroEntrada; j++)
+                {
+                    variable = variable + datosPesosMatriz[i, j].ToString() + ";";
+                }
+                listPesosGanadores.Add(variable);
+            }
+
+            try
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(saveFileDialog1.FileName))
+                    {
+                        string txt = saveFileDialog1.FileName;
+
+                        StreamWriter textoaguardar = File.CreateText(txt);
+
+                        foreach (var item in listPesosGanadores)
+                        {
+                            textoaguardar.Write(item.Trim());
+                        }
+
+                        textoaguardar.Flush();
+                        textoaguardar.Close();
+
+                    }
+                    else
+                    {
+                        string txt = saveFileDialog1.FileName;
+
+                        StreamWriter textoaguardar = File.CreateText(txt);
+
+                        foreach (var item in listPesosGanadores)
+                        {
+                            textoaguardar.Write(item.Trim());
+                        }
+
+                        textoaguardar.Flush();
+                        textoaguardar.Close();
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("No se guardo correctamente");
+            }
+          
+
+        }
+
         private void txtIteracion_TextChanged(object sender, EventArgs e)
         {
 
@@ -554,12 +907,13 @@ namespace KohonenSoftware
             {
                 if (validar4() == false)
                 {
-
-               
+                    
                     PorPatrones();
-                    LlenarEntrenar();
                     NuevoPesos(datosPesosMatriz, ra);
-                    DmCalculo(dmList);
+                    LlenarEntrenar();
+                     
+                    
+                
                 }
                 else
                 {
@@ -570,7 +924,29 @@ namespace KohonenSoftware
             {
                 MessageBox.Show("Ya llego al limite de iteraciones");
             }
-           
+            /*
+            if (Sigue() == true)
+            {
+                MessageBox.Show("Las iteraciones termino y Dm no va disminuyendo");
+                llenarTablaPesos();
+                MostrarTablaPesos(dgvPesos, datosPesosMatriz);
+                btnEntrenar.Enabled = true;
+                stop2 = 0;
+                ra = 0;
+                ganadora = 0;
+                Array.Clear(datosPesosMatriz, 0, datosPesosMatriz.Length);
+                dmList.Clear();
+                Di.Clear();
+            }*/
+        }
+
+        public void Graficar()
+        {
+            double dmMomento = Convert.ToDouble(txtCantidadDm.Text);
+            double iteracionMomento = Convert.ToDouble(txtIteracion.Text);
+
+                chart1.Series["Series1"].Points.AddXY(iteracionMomento, dmMomento);
+            
         }
 
         //Validar EntrenarRedNuevo
@@ -587,22 +963,30 @@ namespace KohonenSoftware
         }
         public Boolean validar4()
         {
-            if (dm < 0.01)
+            if (dm <= 0.001)
             {
                 return true;
             }
             return false;
         }
 
+          public Boolean Sigue()
+        {
+            if (iteracion == Convert.ToDouble(txtIteraciones.Text) && dm > 0.01)
+            {
+                return true;
+            }
+            return false;
+
+        }
         //Fin Validar EntrenarRedNuevo
 
         public void DmCalculo(List<double> dmList)
         {
 
-            dmList.Clear();
             int numeroPatrones = Convert.ToInt32(lbPatrones.Text);
 
-            dm = dm + ((ganadora) / numeroPatrones);
+            dm = (SumGanadora / numeroPatrones);
 
             dmList.Add(dm);
 
@@ -617,7 +1001,7 @@ namespace KohonenSoftware
         public void NuevoPesos(double[,] antiguoPesos, double ra)
         {
             this.numeroEntrada = Convert.ToInt32(dgvEntradas.ColumnCount.ToString());
-            this.numeroNeurona = Convert.ToInt32(lbPatrones.Text);
+            
 
             double nuevoPesos = 0;
             int neuronaMomento = 0;
@@ -634,22 +1018,25 @@ namespace KohonenSoftware
             //Actualizar si es blanda los pesos de las vecinas
             if (ValidarComboCompetencia() == true)
             {
+                c = Convert.ToInt32(txtNeuronaMapa.Text);
                 nuevoPesos = 0;
-                for (int i = 0; i < diPosicionList.Count; i++)
+                for (int i = 0; i < c; i++)
                 {
                     neuronaMomento = (int)diPosicionList[i];
+                    
                     for (int j = 0; j < numeroEntrada; j++)
                     {
-                        nuevoPesos = antiguoPesos[j, neuronaMomento] + ra * Di[neuronaMomento];
-                        antiguoPesos[j, neuronaMomento] = Math.Round(nuevoPesos, 2);
+                        nuevoPesos = antiguoPesos[neuronaMomento, j] + ra * Di[neuronaMomento];
+                        antiguoPesos[neuronaMomento, j] = Math.Round(nuevoPesos, 2);
                     }
                 }
 
-                MostrarTablaPesos(dgvPesos, antiguoPesos);
+               
             }
 
-            iteracion++;
-            txtIteracion.Text = Convert.ToString(iteracion);
+           
+
+            MostrarTablaPesosP(dgvPesos, antiguoPesos);
         }
 
 
